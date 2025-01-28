@@ -2,6 +2,7 @@ package com.buzzcosm.employee.service.impl;
 
 import com.buzzcosm.employee.dto.EmployeeDto;
 import com.buzzcosm.employee.entity.Employee;
+import com.buzzcosm.employee.mapper.AutoEmployeeMapper;
 import com.buzzcosm.employee.repository.EmployeeRepository;
 import com.buzzcosm.employee.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -17,14 +18,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
-        Employee employee = modelMapper.map(employeeDto, Employee.class);
+        //Employee employee = modelMapper.map(employeeDto, Employee.class);
+        Employee employee = AutoEmployeeMapper.MAPPER.mapToEmployeeEntity(employeeDto);
         Employee savedEmployee = employeeRepository.save(employee);
-        return modelMapper.map(savedEmployee, EmployeeDto.class);
+        //return modelMapper.map(savedEmployee, EmployeeDto.class);
+        return AutoEmployeeMapper.MAPPER.mapToEmployeeDto(savedEmployee);
     }
 
     @Override
     public EmployeeDto getEmployeeById(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow();
-        return modelMapper.map(employee, EmployeeDto.class);
+        //return modelMapper.map(employee, EmployeeDto.class);
+        return AutoEmployeeMapper.MAPPER.mapToEmployeeDto(employee);
     }
 }

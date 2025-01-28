@@ -2,6 +2,7 @@ package com.buzzcosm.department.service.impl;
 
 import com.buzzcosm.department.dto.DepartmentDto;
 import com.buzzcosm.department.entity.Department;
+import com.buzzcosm.department.mapper.AutoDepartmentMapper;
 import com.buzzcosm.department.repository.DepartmentRepository;
 import com.buzzcosm.department.service.DepartmentService;
 import lombok.AllArgsConstructor;
@@ -17,14 +18,17 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentDto saveDepartment(DepartmentDto departmentDto) {
-        Department department = modelMapper.map(departmentDto, Department.class);
+        //Department department = modelMapper.map(departmentDto, Department.class);
+        Department department = AutoDepartmentMapper.MAPPER.mapToDepartmentEntity(departmentDto);
         Department savedDepartment = departmentRepository.save(department);
-        return modelMapper.map(savedDepartment, DepartmentDto.class);
+        //return modelMapper.map(savedDepartment, DepartmentDto.class);
+        return AutoDepartmentMapper.MAPPER.mapToDepartmentDto(savedDepartment);
     }
 
     @Override
     public DepartmentDto getDepartmentByCode(String departmentCode) {
         Department department = departmentRepository.findByDepartmentCode(departmentCode);
-        return modelMapper.map(department, DepartmentDto.class);
+        //return modelMapper.map(department, DepartmentDto.class);
+        return AutoDepartmentMapper.MAPPER.mapToDepartmentDto(department);
     }
 }
