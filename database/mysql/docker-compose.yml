@@ -1,0 +1,28 @@
+name: 'db-server'
+services:
+  mysql:
+    image: 'mysql:latest'
+    container_name: 'mysql'
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - './init:/docker-entrypoint-initdb.d'
+      - 'mysql_db_data:/var/lib/mysql'
+
+  phpmyadmin:
+    image: 'phpmyadmin:latest'
+    container_name: 'phpmyadmin'
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+    - mysql
+        
+volumes:
+  mysql_db_data:
