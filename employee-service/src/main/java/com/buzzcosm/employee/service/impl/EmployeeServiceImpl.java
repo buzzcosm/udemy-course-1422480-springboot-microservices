@@ -2,6 +2,7 @@ package com.buzzcosm.employee.service.impl;
 
 import com.buzzcosm.employee.dto.EmployeeDto;
 import com.buzzcosm.employee.entity.Employee;
+import com.buzzcosm.employee.exception.ResourceNotFoundException;
 import com.buzzcosm.employee.mapper.AutoEmployeeMapper;
 import com.buzzcosm.employee.repository.EmployeeRepository;
 import com.buzzcosm.employee.service.EmployeeService;
@@ -27,7 +28,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto getEmployeeById(Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow();
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
         //return modelMapper.map(employee, EmployeeDto.class);
         return AutoEmployeeMapper.MAPPER.mapToEmployeeDto(employee);
     }

@@ -2,6 +2,7 @@ package com.buzzcosm.employee.controller;
 
 import com.buzzcosm.employee.dto.EmployeeDto;
 import com.buzzcosm.employee.service.EmployeeService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class EmployeeController {
 
     // Build save employee REST API
     @PostMapping
-    public ResponseEntity<EmployeeDto> saveEmployee(@RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<EmployeeDto> saveEmployee(@RequestBody @Valid EmployeeDto employeeDto) {
         EmployeeDto savedEmployeeDto = employeeService.saveEmployee(employeeDto);
         return new ResponseEntity<>(savedEmployeeDto, HttpStatus.CREATED);
     }

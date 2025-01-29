@@ -2,6 +2,7 @@ package com.buzzcosm.department.controller;
 
 import com.buzzcosm.department.dto.DepartmentDto;
 import com.buzzcosm.department.service.DepartmentService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class DepartmentController {
 
     // Build save department REST API
     @PostMapping
-    public ResponseEntity<DepartmentDto> saveDepartment(@RequestBody DepartmentDto departmentDto) {
+    public ResponseEntity<DepartmentDto> saveDepartment(@RequestBody @Valid DepartmentDto departmentDto) {
         DepartmentDto saveDepartmentDto = departmentService.saveDepartment(departmentDto);
         return new ResponseEntity<>(saveDepartmentDto, HttpStatus.CREATED);
     }
