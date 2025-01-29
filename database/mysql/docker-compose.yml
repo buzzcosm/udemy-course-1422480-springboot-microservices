@@ -1,5 +1,9 @@
 name: 'db-server'
+
 services:
+  # #############################
+  # MySQL-Server
+  # #############################
   mysql:
     image: 'mysql:latest'
     container_name: 'mysql'
@@ -10,7 +14,9 @@ services:
     volumes:
       - './init:/docker-entrypoint-initdb.d'
       - 'mysql_db_data:/var/lib/mysql'
-
+  # #############################
+  # DB-Admin
+  # #############################
   phpmyadmin:
     image: 'phpmyadmin:latest'
     container_name: 'phpmyadmin'
@@ -22,7 +28,7 @@ services:
       PMA_USER: root
       PMA_PASSWORD: root
     depends_on:
-    - mysql
+      - mysql
         
 volumes:
   mysql_db_data:
