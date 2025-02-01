@@ -11,9 +11,8 @@ import com.buzzcosm.employee.repository.EmployeeRepository;
 import com.buzzcosm.employee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
@@ -23,7 +22,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
-    private RestTemplate restTemplate;
+    private WebClient webClient;
 
     @Value("${department.api.url}")
     private String departmentApiUrl;
@@ -46,12 +45,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public APIResponseDto getEmployeeById(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
-        ResponseEntity<DepartmentDto> departmentDtoResponseEntity = restTemplate.getForEntity(departmentApiUrl + employee.getDepartmentCode(), DepartmentDto.class);
-
         EmployeeDto employeeDto = AutoEmployeeMapper.MAPPER.mapToEmployeeDto(employee);
-        DepartmentDto departmentDto = departmentDtoResponseEntity.getBody();
+
+        DepartmentDto departmentDto = webClient.get()
+                .uri(departmentApiUrl + employee.getDepartmentCode())
+                .retrieve()
+                .bodyToMono(DepartmentDto.class)
+                .block();
 
         APIResponseDto apiResponseDto = new APIResponseDto();
+
         apiResponseDto.setEmployee(employeeDto);
         apiResponseDto.setDepartment(departmentDto);
 
