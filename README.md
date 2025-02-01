@@ -26,3 +26,9 @@ docker compose up -d
 # Stop MySql-Server and Remove MySql-Server with Volumes
 docker compose down -v
 ```
+
+## Microservices Communication
+
+- [RestTemplate](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html)
+- [WebClient](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/reactive/function/client/WebClient.html)
+- [Spring Cloud OpenFeign](https://spring.io/projects/spring-cloud-openfeign)
