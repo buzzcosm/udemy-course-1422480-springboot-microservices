@@ -1,5 +1,6 @@
 package com.buzzcosm.employee.controller;
 
+import com.buzzcosm.employee.dto.APIResponseDto;
 import com.buzzcosm.employee.dto.EmployeeDto;
 import com.buzzcosm.employee.service.EmployeeService;
 import jakarta.validation.Valid;
@@ -24,9 +25,9 @@ public class EmployeeController {
 
     // Build get employee by id REST API
     @GetMapping("{id}")
-    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable("id") Long employeeId) {
-        EmployeeDto employeeDto = employeeService.getEmployeeById(employeeId);
-        return new ResponseEntity<>(employeeDto, HttpStatus.OK);
+    public ResponseEntity<APIResponseDto> getEmployeeById(@PathVariable("id") Long employeeId) {
+        APIResponseDto apiResponseDto = employeeService.getEmployeeById(employeeId);
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
 }

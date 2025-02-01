@@ -1,5 +1,7 @@
 package com.buzzcosm.employee.service.impl;
 
+import com.buzzcosm.employee.dto.APIResponseDto;
+import com.buzzcosm.employee.dto.DepartmentDto;
 import com.buzzcosm.employee.dto.EmployeeDto;
 import com.buzzcosm.employee.entity.Employee;
 import com.buzzcosm.employee.exception.EmailAlreadyExistsException;
@@ -7,18 +9,24 @@ import com.buzzcosm.employee.exception.ResourceNotFoundException;
 import com.buzzcosm.employee.mapper.AutoEmployeeMapper;
 import com.buzzcosm.employee.repository.EmployeeRepository;
 import com.buzzcosm.employee.service.EmployeeService;
-import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeRepository employeeRepository;
-    private final ModelMapper modelMapper;
+    @Autowired
+    private EmployeeRepository employeeRepository;
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Value("${department.api.url}")
+    private String departmentApiUrl;
 
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
@@ -36,9 +44,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto getEmployeeById(Long employeeId) {
+    public APIResponseDto getEmployeeById(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
-        //return modelMapper.map(employee, EmployeeDto.class);
-        return AutoEmployeeMapper.MAPPER.mapToEmployeeDto(employee);
+        ResponseEntity<DepartmentDto> departmentDtoResponseEntity = restTemplate.getForEntity(departmentApiUrl + employee.getDepartmentCode(), DepartmentDto.class);
+
+        EmployeeDto employeeDto = AutoEmployeeMapper.MAPPER.mapToEmployeeDto(employee);
+        DepartmentDto departmentDto = departmentDtoResponseEntity.getBody();
+
+        APIResponseDto apiResponseDto = new APIResponseDto();
+        apiResponseDto.setEmployee(employeeDto);
+        apiResponseDto.setDepartment(departmentDto);
+
+        return apiResponseDto;
     }
 }
