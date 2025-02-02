@@ -8,11 +8,10 @@ import com.buzzcosm.employee.exception.EmailAlreadyExistsException;
 import com.buzzcosm.employee.exception.ResourceNotFoundException;
 import com.buzzcosm.employee.mapper.AutoEmployeeMapper;
 import com.buzzcosm.employee.repository.EmployeeRepository;
+import com.buzzcosm.employee.service.APIClient;
 import com.buzzcosm.employee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
@@ -22,10 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
-    private WebClient webClient;
-
-    @Value("${department.api.url}")
-    private String departmentApiUrl;
+    private APIClient apiClient;
 
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
@@ -46,15 +42,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public APIResponseDto getEmployeeById(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
         EmployeeDto employeeDto = AutoEmployeeMapper.MAPPER.mapToEmployeeDto(employee);
-
-        DepartmentDto departmentDto = webClient.get()
-                .uri(departmentApiUrl + employee.getDepartmentCode())
-                .retrieve()
-                .bodyToMono(DepartmentDto.class)
-                .block();
+        DepartmentDto departmentDto = apiClient.getDepartment(employee.getDepartmentCode());
 
         APIResponseDto apiResponseDto = new APIResponseDto();
-
         apiResponseDto.setEmployee(employeeDto);
         apiResponseDto.setDepartment(departmentDto);
 
