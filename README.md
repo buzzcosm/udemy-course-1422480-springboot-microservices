@@ -14,7 +14,7 @@
 
 ```bash
 # Change Directory to MySql-Server
-cd database/mysql
+cd local-db/mysql
 ```
 
 ```bash
