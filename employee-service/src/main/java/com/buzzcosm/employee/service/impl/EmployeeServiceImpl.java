@@ -40,7 +40,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public APIResponseDto getEmployeeById(Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
+
         EmployeeDto employeeDto = AutoEmployeeMapper.MAPPER.mapToEmployeeDto(employee);
         DepartmentDto departmentDto = apiClient.getDepartment(employee.getDepartmentCode());
 
