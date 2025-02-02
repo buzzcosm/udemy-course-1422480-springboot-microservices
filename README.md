@@ -2,11 +2,15 @@
 
 ## Spring Boot Project As Employee Service
 
-[employee-service](./employee-service/README.md)
+README: [employee-service](./employee-service/README.md)
 
 ## Spring Boot Project As Department Service
 
-[department-service](./department-service/README.md)
+README: [department-service](./department-service/README.md)
+
+## Spring Boot Project As Service Registry
+
+README: [service-registry](./service-registry/README.md)
 
 ## Docker Compose for MySql-Server
 
