@@ -10,7 +10,7 @@
 
 ## Docker Compose for MySql-Server
 
-[docker-compose.yml](./database/mysql/docker-compose.yml)
+[docker-compose.yml](local-db/mysql/docker-compose.yml)
 
 ```bash
 # Change Directory to MySql-Server
