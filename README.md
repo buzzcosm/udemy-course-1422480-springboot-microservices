@@ -16,6 +16,10 @@ README: [service-registry](./service-registry/README.md)
 
 README: [api-gateway](./api-gateway/README.md)
 
+## Spring Boot Project As Config Server
+
+README: [config-server](./config-server/README.md)
+
 ## Docker Compose for MySql-Server
 
 [docker-compose.yml](local-db/mysql/docker-compose.yml)
