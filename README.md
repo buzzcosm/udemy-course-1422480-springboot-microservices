@@ -36,3 +36,11 @@ docker compose down -v
 - [RestTemplate](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html)
 - [WebClient](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/reactive/function/client/WebClient.html)
 - [Spring Cloud OpenFeign](https://spring.io/projects/spring-cloud-openfeign)
+
+### API Gateway
+
+- [Spring Cloud Gateway](https://spring.io/projects/spring-cloud-gateway)
+
+- Route Request
+- Load Balance
+- Security
