@@ -5,7 +5,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(url = "${department.service.url}", value = "${department.service.name}")
+//@FeignClient(url = "${department.service.url}", value = "${department.service.name}")
+@FeignClient(name = "${department.service.name}")
 public interface APIClient {
 
     @GetMapping("${department.service.api-prefix}/{department-code}")
